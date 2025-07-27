@@ -1,10 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"datatypes.h"
 
-typedef int* Int;
-typedef double* Double;
-typedef float* Float;
-typedef char Char;
 
 
 Int int_input(const char* prompth) {
@@ -27,5 +24,3 @@ Float float_input(const char* prompth) {
     scanf("%f", temp);
     return temp;
 }
-
-
