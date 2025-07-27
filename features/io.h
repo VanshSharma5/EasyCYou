@@ -72,6 +72,7 @@ Boolean inputBoolean(String prompt) {
 }
 
 String input(String prompt, size_t max_size) {
+    fflush(stdin);
     printf(prompt);
     String temp = (String)malloc((size_t)max_size);
     scanf("%[^\n]s", temp);
