@@ -30,12 +30,12 @@ int println(String str) {
     return printf("%s\n", str);
 }
 
-void prints(int count, char sep, ...) {
+void prints(String sep, int count, ...) {
     va_list args;
     va_start(args, count); 
 
     for (int i = 0; i < count; i++) {
-        printf("%s%c", (va_arg(args, String)), sep);
+        printf("%s%s", (va_arg(args, String)), sep);
     }
     va_end(args); 
 }
