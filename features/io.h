@@ -81,8 +81,26 @@ String input(String prompt, size_t max_size) {
 
 
 /*
- * These functions are use to parse the Modified Data types
+ * These functions are use to parse the set Data types
  */
+
+ Int setInt(int value) {
+    Int temp = (int*)malloc(sizeof(int));
+    *temp = value;
+    return temp;
+} 
+
+Double setDouble(double value) {
+    Double temp = (double*)malloc(sizeof(double));
+    *temp = value;
+    return temp;
+}
+
+Float setFloat(float value) {
+    Float temp = (float*)malloc(sizeof(float));
+    *temp = value;
+    return temp;
+}
 
 
 /*
