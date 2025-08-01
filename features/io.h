@@ -61,13 +61,17 @@ int input(var *obj, const char* __format, ...) {
     __builtin_va_list __local_argv; __builtin_va_start( __local_argv, __format ); 
     __retval = __mingw_vfprintf( stdout, __format, __local_argv );
     __builtin_va_end( __local_argv );
-
-    scanf(obj->format_specifire, obj->value);
+    if(!strcmp(obj->type, "string")) {
+        scanf("%[^\n]s", obj->value);
+    } else {   
+        scanf(obj->format_specifire, obj->value);
+    }
   
     return __retval;
 }
 
 int print(var* obj) {
+    fflush(stdin);
     if(!strcmp(obj->type, "uint32")) {   
         printf(obj->format_specifire, *(unsigned int*)obj->value);
     }
