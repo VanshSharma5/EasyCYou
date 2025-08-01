@@ -5,9 +5,9 @@
 #define println(obj) print(obj); \
     printf("\n");
 
-
-#define UInt32 "uint32"
-#define Float "float"
+#define UInt32 "uint32", 1
+#define Float "float", 1
+#define String(size) "string", size
 
 #define set(obj, c_value) \
     if(!strcmp(obj->type, "uint32")) { \
@@ -19,15 +19,17 @@
 
 #define get(type, obj) *(type*)obj->value
 
+typedef char* string;
 typedef struct {
     void* value;
     char* type;
     char* format_specifire;
+    size_t len;
     ssize_t size;
 }var;
 
 
-var* init(const char* type) {
+var* Init(const char* type, int max_size) {
     var* obj;
     obj = (var*)malloc(sizeof(var));
     
@@ -42,6 +44,13 @@ var* init(const char* type) {
         obj->size = sizeof(float);
         obj->type = "float";
         obj->format_specifire = "%f";
+    }
+    else if(!strcmp(type, "string")) {
+        obj->value = malloc(sizeof(char)*max_size);
+        obj->size = max_size;
+        obj->len = 0;
+        obj->type = "string";
+        obj->format_specifire = "%s";
     }
 
     return obj;
@@ -60,10 +69,13 @@ int input(var *obj, const char* __format, ...) {
 
 int print(var* obj) {
     if(!strcmp(obj->type, "uint32")) {   
-        printf(obj->format_specifire, get(unsigned int, obj));
+        printf(obj->format_specifire, *(unsigned int*)obj->value);
     }
     else if(!strcmp(obj->type, "float")) {   
-        printf(obj->format_specifire, get(float, obj));
+        printf(obj->format_specifire, *(float*)obj->value);
+    }
+    else if(!strcmp(obj->type, "string")) {   
+        printf(obj->format_specifire, (string)obj->value);
     }
 }
  
