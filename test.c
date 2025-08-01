@@ -1,15 +1,11 @@
-#include<stdio.h>
 #include"features/io.h"
 
 int main() {
-    String name = input("Enter Your Name :<MAX-16>", 16);
-    Int age = inputInt("Enter Your Age :");
-    String gender = input("Enter Your Gender<Male/Female", 8);
 
-    println("The Details You Give Are");
-    print(name);
-    printInt(age);
-    print(gender);
-
+    var* num = init(Float);
+    set(num, -1);
+    //input(int, num, "Enter a number :");
+    printf("%f", get(float, num));
+    printf("%s", num->type);
     return 0;
 }
