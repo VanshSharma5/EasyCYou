@@ -35,12 +35,14 @@ var* Init(const char* type, int max_size) {
     
     if(!strcmp(type, "uint32")) {
         obj->value = malloc(sizeof(unsigned int));
+        *(unsigned int*)obj->value = 0;
         obj->size = sizeof(unsigned int);
         obj->type = "uint32";
         obj->format_specifire = "%u";
     }
     else if(!strcmp(type, "float")) {
         obj->value = malloc(sizeof(float));
+        *(float*)obj->value = 0;
         obj->size = sizeof(float);
         obj->type = "float";
         obj->format_specifire = "%f";
@@ -61,6 +63,8 @@ int input(var *obj, const char* __format, ...) {
     __builtin_va_list __local_argv; __builtin_va_start( __local_argv, __format ); 
     __retval = __mingw_vfprintf( stdout, __format, __local_argv );
     __builtin_va_end( __local_argv );
+    
+    fflush(stdin);
     if(!strcmp(obj->type, "string")) {
         scanf("%[^\n]s", obj->value);
     } else {   
@@ -71,7 +75,6 @@ int input(var *obj, const char* __format, ...) {
 }
 
 int print(var* obj) {
-    fflush(stdin);
     if(!strcmp(obj->type, "uint32")) {   
         printf(obj->format_specifire, *(unsigned int*)obj->value);
     }
