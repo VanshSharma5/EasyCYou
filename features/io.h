@@ -1,120 +1,43 @@
-#include<stdio.h>
+#include <stdio.h>
 #include<stdlib.h>
-#include<stdarg.h>
-#include"datatypes.h"
+#include<string.h>
 
-/*
- * The set of function are use to print the individual variable value
-*/
-int printInt(Int variable) {
-    return printf("%d", *variable);
-}
+#define UInt32 "uint32"
+#define Float "float"
 
-int printFloat(Float variable) {
-    return printf("%f", *variable);
-}
 
-int printDouble(Double variable) {
-    return printf("%lf", *variable);
-}
-
-int printBoolean(Boolean variable) {
-    return printf("%s", variable == True?"True":"False");
-}
-
-int print(String str) {
-    return printf("%s", str);
-}
-
-int println(String str) {
-    return printf("%s\n", str);
-}
-
-void prints(String sep, int count, ...) {
-    va_list args;
-    va_start(args, count); 
-
-    for (int i = 0; i < count; i++) {
-        printf("%s%s", (va_arg(args, String)), sep);
+#define set(obj, c_value) \
+    if(!strcmp(obj->type, "uint32")) { \
+        *(unsigned int*)obj->value = c_value; \
+    } \
+    else if(!strcmp(obj->type, "float")) { \
+        *(float*)obj->value = c_value; \
     }
-    va_end(args); 
-}
 
-/* 
- * It contains the Simpler function to Take user Input at Runtime (Dynamicaly)   
-*/
-Int inputInt(String prompt) {
-    printf(prompt);
-    Int temp = (int*)malloc(sizeof(int));
-    scanf("%d", temp);
-    return temp;
-} 
+#define get(type, obj) *(type*)obj->value
 
-Double inputDouble(String prompt) {
-    printf(prompt);
-    Double temp = (double*)malloc(sizeof(double));
-    scanf("%lf", temp);
-    return temp;
-}
-
-Float inputFloat(String prompt) {
-    printf(prompt);
-    Float temp = (float*)malloc(sizeof(float));
-    scanf("%f", temp);
-    return temp;
-}
-
-Boolean inputBoolean(String prompt) {
-    printf(prompt);
-    int temp; 
-    scanf("%d", &temp);
-    return temp?True:False;
-}
-
-String input(String prompt, size_t max_size) {
-    fflush(stdin);
-    printf(prompt);
-    String temp = (String)malloc((size_t)max_size);
-    scanf("%[^\n]s", temp);
-    return temp;
-}
+typedef struct {
+    void* value;
+    char* type;
+    ssize_t size;
+}var;
 
 
-/*
- * These functions are use to parse the set Data types
- */
-
- Int setInt(int value) {
-    Int temp = (int*)malloc(sizeof(int));
-    *temp = value;
-    return temp;
-} 
-
-Double setDouble(double value) {
-    Double temp = (double*)malloc(sizeof(double));
-    *temp = value;
-    return temp;
-}
-
-Float setFloat(float value) {
-    Float temp = (float*)malloc(sizeof(float));
-    *temp = value;
-    return temp;
-}
-
-
-/*
- * This function is use to de-allocate the memory occupies by the variables
- */
-
- void frees(int count, ...) {
-    va_list args;
-    va_start(args, count); 
-
-    for (int i = 0; i < count; i++) {
-        free(va_arg(args, void*));
+var* init(const char* type) {
+    var* obj;
+    obj = (var*)malloc(sizeof(var));
+    
+    if(!strcmp(type, "uint32")) {
+        obj->value = malloc(sizeof(unsigned int));
+        obj->size = sizeof(unsigned int);
+        obj->type = "uint32";
     }
-    va_end(args); 
- }
+    else if(!strcmp(type, "float")) {
+        obj->value = malloc(sizeof(float));
+        obj->size = sizeof(float);
+        obj->type = "float";
+    }
 
+    return obj;
+}
  
